@@ -7,14 +7,6 @@ base_images:
     name: test
     namespace: ocp-kni
     tag: dev-scripts
-  ocp_builder_rhel-8-golang-1.15-openshift-4.8:
-    name: builder
-    namespace: ocp
-    tag: rhel-8-golang-1.15-openshift-4.8
-  ocp_builder_rhel-8-golang-1.16-openshift-4.8:
-    name: builder
-    namespace: ocp
-    tag: rhel-8-golang-1.16-openshift-4.8
   tools:
     name: "4.8"
     namespace: ocp
@@ -28,20 +20,9 @@ build_root:
 images:
 - dockerfile_path: images/tests/Dockerfile.rhel
   from: tools
-  inputs:
-    ocp_builder_rhel-8-golang-1.15-openshift-4.8:
-      as:
-      - registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.15-openshift-4.8
-    ocp_builder_rhel-8-golang-1.16-openshift-4.8:
-      as:
-      - registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.16-openshift-4.8
   to: tests
 - dockerfile_path: images/hello-openshift/Dockerfile.rhel
   from: base
-  inputs:
-    ocp_builder_rhel-8-golang-1.15-openshift-4.8:
-      as:
-      - registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.15-openshift-4.8
   to: hello-openshift
 promotion:
   to:
@@ -52,13 +33,11 @@ releases:
     integration:
       name: "4.8"
       namespace: ocp
-      reference_policy: Source
   latest:
     integration:
       include_built_images: true
       name: "4.8"
       namespace: ocp
-      reference_policy: Source
 resources:
   '*':
     requests:
@@ -155,7 +134,8 @@ tests:
   steps:
     cluster_profile: gcp
     workflow: openshift-upgrade-gcp
-- as: e2e-gcp-csi
+- always_run: false
+  as: e2e-gcp-csi
   optional: true
   steps:
     cluster_profile: gcp
@@ -173,7 +153,8 @@ tests:
   steps:
     cluster_profile: aws
     workflow: openshift-e2e-aws-serial
-- as: e2e-aws-csi
+- always_run: false
+  as: e2e-aws-csi
   optional: true
   steps:
     cluster_profile: aws-3
@@ -186,7 +167,8 @@ tests:
     env:
       TEST_SUITE: openshift/conformance/parallel
     workflow: openshift-e2e-vsphere-upi
-- as: e2e-aws-fips
+- always_run: false
+  as: e2e-aws-fips
   optional: true
   steps:
     cluster_profile: aws
@@ -207,26 +189,30 @@ tests:
     workflow: openshift-e2e-aws-sdn-multi
 - always_run: false
   as: e2e-metal-ipi
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-sdn-ipv4
 - as: e2e-metal-ipi-ovn-ipv6
-  cluster: build05
+  capabilities:
+  - intranet
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-ovn-ipv6
 - always_run: false
   as: e2e-metal-ipi-ovn-dualstack
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-ovn-dualstack
 - always_run: false
   as: e2e-metal-ipi-virtualmedia
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: equinix-ocp-metal

@@ -5,13 +5,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -29,9 +29,17 @@ presubmits:
         - --target=e2e-metal-assisted
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -80,13 +88,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-ai-amd-4-19
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -104,9 +112,17 @@ presubmits:
         - --target=e2e-metal-assisted-ai-amd-4-19
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -155,13 +171,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-ai-nvidia-4-18
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -179,9 +195,17 @@ presubmits:
         - --target=e2e-metal-assisted-ai-nvidia-4-18
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -230,13 +254,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-day2
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -254,9 +278,17 @@ presubmits:
         - --target=e2e-metal-assisted-day2
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -305,13 +337,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-external
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -329,9 +361,17 @@ presubmits:
         - --target=e2e-metal-assisted-external
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -380,13 +420,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-ipv4v6
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -404,9 +444,17 @@ presubmits:
         - --target=e2e-metal-assisted-ipv4v6
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -455,13 +503,95 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
-    context: ci/prow/e2e-metal-assisted-lvm
+    cluster: build11
+    context: ci/prow/e2e-metal-assisted-kube-api-tna-4-21
     decorate: true
     labels:
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
+      ci.openshift.io/generator: prowgen
+      job-release: "4.18"
+      pj-rehearse.openshift.io/can-be-rehearsed: "true"
+    name: pull-ci-openshift-assisted-service-assisted-version-placeholder-e2e-metal-assisted-kube-api-tna-4-21
+    optional: true
+    rerun_command: /test e2e-metal-assisted-kube-api-tna-4-21
+    spec:
+      containers:
+      - args:
+        - --gcs-upload-secret=/secrets/gcs/service-account.json
+        - --image-import-pull-secret=/etc/pull-secret/.dockerconfigjson
+        - --lease-server-credentials-file=/etc/boskos/credentials
+        - --report-credentials-file=/etc/report/credentials
+        - --secret-dir=/secrets/ci-pull-credentials
+        - --target=e2e-metal-assisted-kube-api-tna-4-21
+        command:
+        - ci-operator
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
+        imagePullPolicy: Always
+        name: ""
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+          requests:
+            cpu: 10m
+        volumeMounts:
+        - mountPath: /etc/boskos
+          name: boskos
+          readOnly: true
+        - mountPath: /secrets/ci-pull-credentials
+          name: ci-pull-credentials
+          readOnly: true
+        - mountPath: /secrets/gcs
+          name: gcs-credentials
+          readOnly: true
+        - mountPath: /secrets/manifest-tool
+          name: manifest-tool-local-pusher
+          readOnly: true
+        - mountPath: /etc/pull-secret
+          name: pull-secret
+          readOnly: true
+        - mountPath: /etc/report
+          name: result-aggregator
+          readOnly: true
+      serviceAccountName: ci-operator
+      volumes:
+      - name: boskos
+        secret:
+          items:
+          - key: credentials
+            path: credentials
+          secretName: boskos-credentials
+      - name: ci-pull-credentials
+        secret:
+          secretName: ci-pull-credentials
+      - name: manifest-tool-local-pusher
+        secret:
+          secretName: manifest-tool-local-pusher
+      - name: pull-secret
+        secret:
+          secretName: registry-pull-credentials
+      - name: result-aggregator
+        secret:
+          secretName: result-aggregator
+    trigger: (?m)^/test( | .* )e2e-metal-assisted-kube-api-tna-4-21,?($|\s.*)
+  - agent: kubernetes
+    always_run: false
+    branches:
+    - ^assisted-version-placeholder$
+    - ^assisted-version-placeholder-
+    cluster: build11
+    context: ci/prow/e2e-metal-assisted-lvm
+    decorate: true
+    labels:
+      capability/intranet: intranet
+      ci-operator.openshift.io/cloud: packet-edge
+      ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -479,9 +609,17 @@ presubmits:
         - --target=e2e-metal-assisted-lvm
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -530,13 +668,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-none
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -554,9 +692,17 @@ presubmits:
         - --target=e2e-metal-assisted-none
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -605,13 +751,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-osc
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -629,9 +775,17 @@ presubmits:
         - --target=e2e-metal-assisted-osc
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -680,13 +834,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-single-node
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -704,9 +858,17 @@ presubmits:
         - --target=e2e-metal-assisted-single-node
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -755,13 +917,13 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/e2e-metal-assisted-static-ip-suite
     decorate: true
     labels:
+      capability/intranet: intranet
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -779,9 +941,17 @@ presubmits:
         - --target=e2e-metal-assisted-static-ip-suite
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -830,13 +1000,95 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
-    context: ci/prow/e2e-metal-assisted-virtualization-4-18
+    cluster: build11
+    context: ci/prow/e2e-metal-assisted-tna-4-21
     decorate: true
     labels:
       ci-operator.openshift.io/cloud: packet-edge
       ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
-      ci-operator.openshift.io/cluster: build05
+      ci.openshift.io/generator: prowgen
+      job-release: "4.18"
+      pj-rehearse.openshift.io/can-be-rehearsed: "true"
+    name: pull-ci-openshift-assisted-service-assisted-version-placeholder-e2e-metal-assisted-tna-4-21
+    optional: true
+    rerun_command: /test e2e-metal-assisted-tna-4-21
+    spec:
+      containers:
+      - args:
+        - --gcs-upload-secret=/secrets/gcs/service-account.json
+        - --image-import-pull-secret=/etc/pull-secret/.dockerconfigjson
+        - --lease-server-credentials-file=/etc/boskos/credentials
+        - --report-credentials-file=/etc/report/credentials
+        - --secret-dir=/secrets/ci-pull-credentials
+        - --target=e2e-metal-assisted-tna-4-21
+        command:
+        - ci-operator
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
+        imagePullPolicy: Always
+        name: ""
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+          requests:
+            cpu: 10m
+        volumeMounts:
+        - mountPath: /etc/boskos
+          name: boskos
+          readOnly: true
+        - mountPath: /secrets/ci-pull-credentials
+          name: ci-pull-credentials
+          readOnly: true
+        - mountPath: /secrets/gcs
+          name: gcs-credentials
+          readOnly: true
+        - mountPath: /secrets/manifest-tool
+          name: manifest-tool-local-pusher
+          readOnly: true
+        - mountPath: /etc/pull-secret
+          name: pull-secret
+          readOnly: true
+        - mountPath: /etc/report
+          name: result-aggregator
+          readOnly: true
+      serviceAccountName: ci-operator
+      volumes:
+      - name: boskos
+        secret:
+          items:
+          - key: credentials
+            path: credentials
+          secretName: boskos-credentials
+      - name: ci-pull-credentials
+        secret:
+          secretName: ci-pull-credentials
+      - name: manifest-tool-local-pusher
+        secret:
+          secretName: manifest-tool-local-pusher
+      - name: pull-secret
+        secret:
+          secretName: registry-pull-credentials
+      - name: result-aggregator
+        secret:
+          secretName: result-aggregator
+    trigger: (?m)^/test( | .* )e2e-metal-assisted-tna-4-21,?($|\s.*)
+  - agent: kubernetes
+    always_run: false
+    branches:
+    - ^assisted-version-placeholder$
+    - ^assisted-version-placeholder-
+    cluster: build11
+    context: ci/prow/e2e-metal-assisted-virtualization-4-18
+    decorate: true
+    labels:
+      capability/intranet: intranet
+      ci-operator.openshift.io/cloud: packet-edge
+      ci-operator.openshift.io/cloud-cluster-profile: packet-assisted
       ci.openshift.io/generator: prowgen
       job-release: "4.18"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -854,9 +1106,17 @@ presubmits:
         - --target=e2e-metal-assisted-virtualization-4-18
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -928,9 +1188,17 @@ presubmits:
         - --target=e2e-vsphere-assisted
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -979,7 +1247,7 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/images
     decorate: true
     labels:
@@ -997,7 +1265,7 @@ presubmits:
         - --target=[images]
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1033,7 +1301,7 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/lint
     decorate: true
     labels:
@@ -1051,9 +1319,17 @@ presubmits:
         - --target=lint
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1087,7 +1363,7 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/subsystem-aws
     decorate: true
     labels:
@@ -1108,9 +1384,17 @@ presubmits:
         - --target=subsystem-aws
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1156,7 +1440,7 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/unit-test
     decorate: true
     labels:
@@ -1176,9 +1460,17 @@ presubmits:
         - --target=unit-test
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1218,7 +1510,7 @@ presubmits:
     branches:
     - ^assisted-version-placeholder$
     - ^assisted-version-placeholder-
-    cluster: build05
+    cluster: build11
     context: ci/prow/verify-generated-code
     decorate: true
     labels:
@@ -1238,9 +1530,17 @@ presubmits:
         - --target=verify-generated-code
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

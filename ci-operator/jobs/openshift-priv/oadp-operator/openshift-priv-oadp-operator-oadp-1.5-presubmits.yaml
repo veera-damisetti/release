@@ -5,7 +5,7 @@ presubmits:
     branches:
     - ^oadp-1\.5$
     - ^oadp-1\.5-
-    cluster: build05
+    cluster: build10
     context: ci/prow/4.19-ci-index
     decorate: true
     decoration_config:
@@ -30,7 +30,7 @@ presubmits:
         - --variant=4.19
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -102,9 +102,17 @@ presubmits:
         - --variant=4.19
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -189,9 +197,17 @@ presubmits:
         - --variant=4.19
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -276,9 +292,17 @@ presubmits:
         - --variant=4.19
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -333,7 +357,7 @@ presubmits:
     branches:
     - ^oadp-1\.5$
     - ^oadp-1\.5-
-    cluster: build05
+    cluster: build10
     context: ci/prow/4.19-images
     decorate: true
     decoration_config:
@@ -358,7 +382,7 @@ presubmits:
         - --variant=4.19
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -400,7 +424,7 @@ presubmits:
     branches:
     - ^oadp-1\.5$
     - ^oadp-1\.5-
-    cluster: build05
+    cluster: build10
     context: ci/prow/4.20-ci-index
     decorate: true
     decoration_config:
@@ -425,7 +449,7 @@ presubmits:
         - --variant=4.20
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -481,7 +505,6 @@ presubmits:
       job-release: "4.20"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
     name: pull-ci-openshift-priv-oadp-operator-oadp-1.5-4.20-e2e-test-aws
-    optional: true
     path_alias: github.com/openshift/oadp-operator
     rerun_command: /test 4.20-e2e-test-aws
     run_if_changed: .+\.go|go\.(\bmod\b|\bsum\b)|Makefile|Dockerfile|.dockerignore|.*\.ya{0,1}ml|build/.+|.sh
@@ -498,9 +521,17 @@ presubmits:
         - --variant=4.20
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -569,7 +600,6 @@ presubmits:
       job-release: "4.20"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
     name: pull-ci-openshift-priv-oadp-operator-oadp-1.5-4.20-e2e-test-hcp-aws
-    optional: true
     path_alias: github.com/openshift/oadp-operator
     rerun_command: /test 4.20-e2e-test-hcp-aws
     run_if_changed: .+\.go|go\.(\bmod\b|\bsum\b)|Makefile|Dockerfile|.dockerignore|.*\.ya{0,1}ml|build/.+|.sh
@@ -586,9 +616,17 @@ presubmits:
         - --variant=4.20
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -657,7 +695,6 @@ presubmits:
       job-release: "4.20"
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
     name: pull-ci-openshift-priv-oadp-operator-oadp-1.5-4.20-e2e-test-kubevirt-aws
-    optional: true
     path_alias: github.com/openshift/oadp-operator
     rerun_command: /test 4.20-e2e-test-kubevirt-aws
     run_if_changed: .+\.go|go\.(\bmod\b|\bsum\b)|Makefile|Dockerfile|.dockerignore|.*\.ya{0,1}ml|build/.+|.sh
@@ -674,9 +711,17 @@ presubmits:
         - --variant=4.20
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -731,7 +776,7 @@ presubmits:
     branches:
     - ^oadp-1\.5$
     - ^oadp-1\.5-
-    cluster: build05
+    cluster: build10
     context: ci/prow/4.20-images
     decorate: true
     decoration_config:
@@ -756,7 +801,7 @@ presubmits:
         - --variant=4.20
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -821,7 +866,7 @@ presubmits:
         - --target=[images]
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -863,7 +908,7 @@ presubmits:
     branches:
     - ^oadp-1\.5$
     - ^oadp-1\.5-
-    cluster: build05
+    cluster: build10
     context: ci/prow/unit-test
     decorate: true
     decoration_config:
@@ -885,9 +930,17 @@ presubmits:
         - --target=unit-test
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

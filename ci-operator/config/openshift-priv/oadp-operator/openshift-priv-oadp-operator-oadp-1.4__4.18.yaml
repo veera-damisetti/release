@@ -31,7 +31,6 @@ resources:
 tests:
 - always_run: false
   as: e2e-test-aws
-  optional: true
   run_if_changed: .+\.go|go\.(\bmod\b|\bsum\b)|Makefile|Dockerfile|.dockerignore|.*\.ya{0,1}ml|build/.+|.sh
   steps:
     cluster_profile: aws
@@ -49,8 +48,7 @@ tests:
       cli: latest
       commands: make test-e2e
       credentials:
-      - collection: ""
-        mount_path: /var/run/oadp-credentials
+      - mount_path: /var/run/oadp-credentials
         name: oadp-credentials
         namespace: test-credentials
       from: test-oadp-operator-1.4
@@ -61,7 +59,6 @@ tests:
     workflow: optional-operators-ci-aws
 - always_run: false
   as: e2e-test-hcp-aws
-  optional: true
   run_if_changed: .+\.go|go\.(\bmod\b|\bsum\b)|Makefile|Dockerfile|.dockerignore|.*\.ya{0,1}ml|build/.+|.sh
   steps:
     cluster_profile: aws-2
@@ -77,8 +74,7 @@ tests:
       cli: latest
       commands: make TEST_HCP=true test-e2e
       credentials:
-      - collection: ""
-        mount_path: /var/run/oadp-credentials
+      - mount_path: /var/run/oadp-credentials
         name: oadp-credentials
         namespace: test-credentials
       from: test-oadp-operator-1.4

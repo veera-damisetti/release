@@ -11,6 +11,10 @@ base_images:
     name: "4.21"
     namespace: ocp
     tag: cli
+  tests-private:
+    name: tests-private
+    namespace: ci
+    tag: "4.21"
   upi-installer:
     name: "4.21"
     namespace: ocp
@@ -20,7 +24,7 @@ build_root:
   image_stream_tag:
     name: builder
     namespace: ocp
-    tag: rhel-9-golang-1.24-openshift-4.20
+    tag: rhel-9-golang-1.24-openshift-4.21
 images:
 - dockerfile_literal: |
     FROM src AS builder
@@ -48,8 +52,7 @@ images:
   to: tests-private-pr
 promotion:
   to:
-  - disabled: true
-    excluded_images:
+  - excluded_images:
     - tests-private-ui
     - tests-private-pr
     name: "4.21"
@@ -107,12 +110,12 @@ tests:
   container:
     from: src
   skip_if_only_changed: OWNERS$
-- as: e2e-aws
+- always_run: false
+  as: e2e-aws
   optional: true
-  skip_if_only_changed: ^frontend/|^images/|^pipeline/|^test/extended/(cluster_operator/hive|disaster_recovery|hypershift|kata|ocm_terraform|psap/hypernto|rosacli|testdata|util|winc)/|include\.go$|OWNERS$
   steps:
     allow_skip_on_success: true
-    cluster_profile: aws
+    cluster_profile: aws-5
     test:
     - ref: enable-qe-catalogsource
     - as: pr-test
@@ -140,7 +143,8 @@ tests:
           cpu: "1"
           memory: 1Gi
     workflow: ipi-aws
-- as: e2e-console
+- always_run: false
+  as: e2e-console
   optional: true
   run_if_changed: frontend/tests/.*.cy.ts
   steps:
@@ -191,6 +195,7 @@ tests:
     cluster_profile: aws-qe
     env:
       BASE_DOMAIN: qe.devcluster.openshift.com
+      FILTERS_ADDITIONAL: ~CPaasrunOnly&;Smokerun&
       FORCE_SUCCESS_EXIT: "no"
       TEST_FILTERS: ~ChkUpgrade&;~ConnectedOnly&;Smokerun&
       TEST_SCENARIOS: Windows_Containers
@@ -238,6 +243,20 @@ tests:
     test:
     - ref: openshift-extended-test
     workflow: cucushift-installer-rehearse-vsphere-ipi-ovn-winc
+- as: debug-winc-nutanix-ipi
+  optional: true
+  run_if_changed: test/extended/winc/
+  steps:
+    cluster_profile: nutanix-qe
+    env:
+      EXTRACT_MANIFEST_INCLUDED: "true"
+      OVERRIDE_RHCOS_IMAGE: https://rhcos.mirror.openshift.com/art/storage/prod/streams/rhel-9.6/builds/9.6.20260117-0/x86_64/rhcos-9.6.20260117-0-nutanix.x86_64.qcow2
+      TEST_FILTERS: ~ChkUpgrade&;~ConnectedOnly&;Smokerun&
+      TEST_SCENARIOS: Windows_Containers
+      TEST_TIMEOUT: "1551"
+    test:
+    - ref: openshift-extended-test
+    workflow: cucushift-installer-rehearse-nutanix-ipi-ovn-winc
 zz_generated_metadata:
   branch: release-4.21
   org: openshift

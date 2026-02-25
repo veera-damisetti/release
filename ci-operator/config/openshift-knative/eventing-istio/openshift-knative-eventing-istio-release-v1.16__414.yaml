@@ -86,7 +86,7 @@ tests:
     - as: openshift-gather-extra
       best_effort: true
       cli: latest
-      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/master/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
+      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/main/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
         | /bin/bash -s
       from: knative-eventing-istio-source-image
       grace_period: 1m0s
@@ -113,10 +113,9 @@ tests:
           cpu: 100m
       timeout: 4h0m0s
     workflow: ipi-aws
-  timeout: 5h0m0s
 - always_run: false
   as: e2e-tests-c
-  cron: 0 8 20 6 *
+  cron: 41 0 * * 2,6
   steps:
     allow_best_effort_post_steps: true
     allow_skip_on_success: true
@@ -161,7 +160,7 @@ tests:
     - as: openshift-gather-extra
       best_effort: true
       cli: latest
-      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/master/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
+      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/main/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
         | /bin/bash -s
       from: knative-eventing-istio-source-image
       grace_period: 1m0s
@@ -188,7 +187,6 @@ tests:
           cpu: 100m
       timeout: 4h0m0s
     workflow: ipi-aws
-  timeout: 5h0m0s
 zz_generated_metadata:
   branch: release-v1.16
   org: openshift-knative

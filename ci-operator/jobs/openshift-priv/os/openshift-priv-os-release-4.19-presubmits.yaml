@@ -5,7 +5,7 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build10
+    cluster: build09
     context: ci/prow/e2e-aws
     decorate: true
     decoration_config:
@@ -20,7 +20,6 @@ presubmits:
     optional: true
     path_alias: github.com/openshift/os
     rerun_command: /test e2e-aws
-    skip_if_only_changed: ^docs/|\.md$|^(?:.*/)?(?:\.gitignore|OWNERS|PROJECT|LICENSE)$
     spec:
       containers:
       - args:
@@ -33,9 +32,17 @@ presubmits:
         - --target=e2e-aws
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -90,7 +97,7 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build07
+    cluster: build04
     context: ci/prow/images
     decorate: true
     decoration_config:
@@ -112,7 +119,7 @@ presubmits:
         - --target=[images]
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -154,12 +161,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/rhcos-9-build-test-metal
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 3h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -179,9 +185,17 @@ presubmits:
         - --target=rhcos-9-build-test-metal
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -221,12 +235,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/rhcos-9-build-test-qemu
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 4h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -246,9 +259,17 @@ presubmits:
         - --target=rhcos-9-build-test-qemu
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -288,12 +309,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/rhcos-9next-build-test-metal
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 3h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -313,9 +333,17 @@ presubmits:
         - --target=rhcos-9next-build-test-metal
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -355,12 +383,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/rhcos-9next-build-test-qemu
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 4h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -380,9 +407,17 @@ presubmits:
         - --target=rhcos-9next-build-test-qemu
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -422,12 +457,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/scos-10-build-test-metal
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 3h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -447,9 +481,17 @@ presubmits:
         - --target=scos-10-build-test-metal
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -489,12 +531,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/scos-10-build-test-qemu
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 4h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -514,9 +555,17 @@ presubmits:
         - --target=scos-10-build-test-qemu
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -556,12 +605,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/scos-9-build-test-metal
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 3h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -581,9 +629,17 @@ presubmits:
         - --target=scos-9-build-test-metal
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -623,12 +679,11 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build02
+    cluster: build04
     context: ci/prow/scos-9-build-test-qemu
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 4h0m0s
     hidden: true
     labels:
       ci.openshift.io/generator: prowgen
@@ -648,9 +703,17 @@ presubmits:
         - --target=scos-9-build-test-qemu
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -690,7 +753,7 @@ presubmits:
     branches:
     - ^release-4\.19$
     - ^release-4\.19-
-    cluster: build07
+    cluster: build04
     context: ci/prow/validate
     decorate: true
     decoration_config:
@@ -713,9 +776,17 @@ presubmits:
         - --target=validate
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

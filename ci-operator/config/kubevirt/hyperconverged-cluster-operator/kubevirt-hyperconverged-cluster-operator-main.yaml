@@ -4,7 +4,7 @@ base_images:
     namespace: ocp
     tag: "9"
   cli:
-    name: "4.20"
+    name: "4.22"
     namespace: ocp
     tag: cli
   cli-operator-sdk:
@@ -14,21 +14,17 @@ base_images:
   hco-bundle-reg:
     name: hyperconverged-cluster-bundle
     namespace: ci
-    tag: 1.17.0-unstable
+    tag: 1.18.0-unstable
   hco-bundle-reg-prev:
     name: hyperconverged-cluster-bundle
     namespace: ci
-    tag: 1.16.0-unstable
-  ocp_builder_rhel-9-golang-1.24-openshift-4.20:
-    name: builder
-    namespace: ocp
-    tag: rhel-9-golang-1.24-openshift-4.20
+    tag: 1.17.0-unstable
 binary_build_commands: make install
 build_root:
   image_stream_tag:
     name: release
     namespace: openshift
-    tag: rhel-9-release-golang-1.24-openshift-4.20
+    tag: rhel-9-release-golang-1.25-openshift-4.22
 images:
 - dockerfile_path: build/Dockerfile.okd
   from: base
@@ -50,10 +46,6 @@ images:
   optional: true
   to: virt-artifacts-server
 - dockerfile_path: build/Dockerfile.functest.ci
-  inputs:
-    ocp_builder_rhel-9-golang-1.24-openshift-4.20:
-      as:
-      - registry.ci.openshift.org/ocp/builder:rhel-9-golang-1.24-openshift-4.20
   to: hyperconverged-cluster-functest
 - dockerfile_literal: |
     FROM src
@@ -117,12 +109,12 @@ releases:
       product: ocp
       relative: 1
       stream: nightly
-      version: "4.20"
+      version: "4.22"
   latest:
     candidate:
       product: ocp
       stream: nightly
-      version: "4.20"
+      version: "4.22"
 resources:
   '*':
     requests:
@@ -201,7 +193,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg
     env:
       BASE_DOMAIN: cnv-devel.azure.devcluster.openshift.com
-      INITIAL_VERSION: 1.17.0
+      INITIAL_VERSION: 1.18.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:
@@ -256,7 +248,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg-prev
     env:
       BASE_DOMAIN: cnv-devel.azure.devcluster.openshift.com
-      INITIAL_VERSION: 1.16.0
+      INITIAL_VERSION: 1.17.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:
@@ -343,7 +335,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg
     env:
       BASE_DOMAIN: cnv-ci.syseng.devcluster.openshift.com
-      INITIAL_VERSION: 1.17.0
+      INITIAL_VERSION: 1.18.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:
@@ -398,7 +390,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg-prev
     env:
       BASE_DOMAIN: cnv-ci.syseng.devcluster.openshift.com
-      INITIAL_VERSION: 1.16.0
+      INITIAL_VERSION: 1.17.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:
@@ -557,7 +549,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg
     env:
       BASE_DOMAIN: cnv-ci.syseng.devcluster.openshift.com
-      INITIAL_VERSION: 1.17.0
+      INITIAL_VERSION: 1.18.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
       SPOT_INSTANCES: "true"
@@ -612,7 +604,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg
     env:
       BASE_DOMAIN: cnv-devel.azure.devcluster.openshift.com
-      INITIAL_VERSION: 1.17.0
+      INITIAL_VERSION: 1.18.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:
@@ -666,7 +658,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg-prev
     env:
       BASE_DOMAIN: cnv-ci.syseng.devcluster.openshift.com
-      INITIAL_VERSION: 1.16.0
+      INITIAL_VERSION: 1.17.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
       SPOT_INSTANCES: "true"
@@ -721,7 +713,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg-prev
     env:
       BASE_DOMAIN: cnv-devel.azure.devcluster.openshift.com
-      INITIAL_VERSION: 1.16.0
+      INITIAL_VERSION: 1.17.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:
@@ -775,7 +767,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg-prev
     env:
       BASE_DOMAIN: cnv-ci.syseng.devcluster.openshift.com
-      INITIAL_VERSION: 1.16.0
+      INITIAL_VERSION: 1.17.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
     test:
     - as: deploy-cr
@@ -830,7 +822,7 @@ tests:
       OO_BUNDLE: hco-bundle-reg-prev
     env:
       BASE_DOMAIN: cnv-devel.azure.devcluster.openshift.com
-      INITIAL_VERSION: 1.16.0
+      INITIAL_VERSION: 1.17.0
       OO_INSTALL_NAMESPACE: kubevirt-hyperconverged
       OO_INSTALL_TIMEOUT_MINUTES: "15"
     test:

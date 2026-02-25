@@ -44,7 +44,7 @@ spec:
   host: openshift-release-s390x-priv.apps.ci.l2s4.p1.openshiftapps.com
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: Reencrypt
+    termination: reencrypt
   to:
     kind: Service
     name: release-controller-api-ocp-s390x-priv
@@ -140,7 +140,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"release-controller:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"controller\")].image"}]'
+    keel.sh/matchTag: 'true'
+    keel.sh/policy: force
+    keel.sh/pollSchedule: '@every 5m'
+    keel.sh/trigger: poll
   name: release-controller-ocp-s390x-priv
   namespace: ci
 spec:
@@ -156,7 +159,7 @@ spec:
       containers:
       - args:
         - --repo=https://github.com/openshift/release.git
-        - --ref=master
+        - --ref=main
         - --period=30s
         - --root=/tmp/git-sync
         - --max-failures=3
@@ -230,7 +233,8 @@ spec:
           value: /tmp/home
         - name: XDG_RUNTIME_DIR
           value: /tmp/home/run
-        image: release-controller:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_release-controller_latest
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /healthz
@@ -278,7 +282,7 @@ spec:
       initContainers:
       - args:
         - --repo=https://github.com/openshift/release.git
-        - --ref=master
+        - --ref=main
         - --root=/tmp/git-sync
         - --one-time=true
         - --depth=1
@@ -365,7 +369,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"release-controller-api:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"controller\")].image"}]'
+    keel.sh/matchTag: 'true'
+    keel.sh/policy: force
+    keel.sh/pollSchedule: '@every 5m'
+    keel.sh/trigger: poll
   name: release-controller-api-ocp-s390x-priv
   namespace: ci
 spec:
@@ -427,7 +434,8 @@ spec:
           value: /tmp/home
         - name: XDG_RUNTIME_DIR
           value: /tmp/home/run
-        image: release-controller-api:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_release-controller-api_latest
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /healthz
@@ -614,7 +622,7 @@ spec:
   host: openshift-release-artifacts-s390x-priv.apps.ci.l2s4.p1.openshiftapps.com
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: Reencrypt
+    termination: reencrypt
   to:
     kind: Service
     name: files-cache-oauth-proxy

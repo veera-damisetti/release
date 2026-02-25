@@ -2,7 +2,7 @@ base_images:
   rhel-coreos-base:
     name: rhel-coreos-base
     namespace: coreos
-    tag: "9.6"
+    tag: "9.8"
 build_root:
   image_stream_tag:
     name: coreos-assembler
@@ -21,7 +21,7 @@ images:
 - build_args:
   - name: OPENSHIFT_CI
     value: "1"
-  dockerfile_path: extensions/Dockerfile
+  dockerfile_path: extensions/Containerfile
   inputs:
     rhel-coreos:
       as:
@@ -32,17 +32,17 @@ promotion:
   - excluded_images:
     - rhel-coreos
     - rhel-coreos-extensions
-    name: "4.21"
+    name: "4.22"
     namespace: ocp
 releases:
   initial:
     integration:
-      name: "4.21"
+      name: "4.22"
       namespace: ocp
   latest:
     integration:
       include_built_images: true
-      name: "4.21"
+      name: "4.22"
       namespace: ocp
 resources:
   '*':
@@ -53,9 +53,8 @@ tests:
 - always_run: false
   as: e2e-aws
   optional: true
-  skip_if_only_changed: ^docs/|\.md$|^(?:.*/)?(?:\.gitignore|OWNERS|PROJECT|LICENSE)$
   steps:
-    cluster_profile: aws-3
+    cluster_profile: aws
     workflow: openshift-e2e-aws
 zz_generated_metadata:
   branch: master

@@ -15,7 +15,7 @@ build_root:
   image_stream_tag:
     name: release
     namespace: openshift
-    tag: golang-1.21
+    tag: rhel-9-release-golang-1.21-openshift-4.18
 images:
 - build_args:
   - name: OCP_VERSION
@@ -75,7 +75,6 @@ tests:
     - ref: interop-tests-cnv-tests-e2e-deploy
     - ref: interop-tests-openshift-virtualization-tests
     workflow: firewatch-ipi-aws
-  timeout: 6h0m0s
 - as: cnv-odf-tests-aws-ipi-ocp419-fips
   cron: 0 23 31 2 *
   steps:
@@ -115,7 +114,6 @@ tests:
     - ref: interop-tests-cnv-tests-e2e-deploy
     - ref: interop-tests-openshift-virtualization-tests
     workflow: firewatch-ipi-aws
-  timeout: 6h0m0s
 zz_generated_metadata:
   branch: master
   org: RedHatQE

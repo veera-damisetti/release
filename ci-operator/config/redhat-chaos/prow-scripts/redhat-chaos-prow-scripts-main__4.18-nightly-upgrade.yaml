@@ -65,7 +65,6 @@ tests:
       OPENSHIFT_UPGRADE_RELEASE_IMAGE_OVERRIDE: release:latest
     env:
       BASE_DOMAIN: aws.rhperfscale.org
-      CHURN: "false"
       ENABLE_FORCE: "true"
       GC: "false"
       MAX_UNAVAILABLE: "3"
@@ -79,10 +78,10 @@ tests:
     - chain: ipi-aws-post
     pre:
     - chain: ipi-aws-pre-stableinitial
-    - chain: openshift-qe-cluster-density-v2
+    - ref: openshift-qe-cluster-density-v2
+    - ref: redhat-chaos-observer-start
     - ref: redhat-chaos-start-krkn
     workflow: openshift-qe-upgrade
-  timeout: 8h0m0s
 - as: chaos-aws-loaded-upgrade-417to418-node-scenarios
   cron: 0 1 11 * *
   steps:
@@ -93,7 +92,6 @@ tests:
       OPENSHIFT_UPGRADE_RELEASE_IMAGE_OVERRIDE: release:latest
     env:
       BASE_DOMAIN: aws.rhperfscale.org
-      CHURN: "false"
       ENABLE_FORCE: "true"
       GC: "false"
       MAX_UNAVAILABLE: "3"
@@ -110,10 +108,10 @@ tests:
     - chain: ipi-aws-post
     pre:
     - chain: ipi-aws-pre-stableinitial
-    - chain: openshift-qe-cluster-density-v2
+    - ref: openshift-qe-cluster-density-v2
+    - ref: redhat-chaos-observer-start
     - ref: redhat-chaos-start-krkn
     workflow: openshift-qe-upgrade
-  timeout: 8h0m0s
 - as: chaos-gcp-loaded-upgrade-417to418-node-scenarios
   cron: 0 12 5 * *
   steps:
@@ -123,7 +121,6 @@ tests:
       OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE: release:initial
       OPENSHIFT_UPGRADE_RELEASE_IMAGE_OVERRIDE: release:latest
     env:
-      CHURN: "false"
       ENABLE_FORCE: "true"
       GC: "false"
       MAX_UNAVAILABLE: "3"
@@ -132,11 +129,11 @@ tests:
       - redhat-chaos-cerberus
       - redhat-chaos-node-disruptions-worker-outage-observer
     test:
+    - ref: openshift-qe-cluster-density-v2
+    - ref: redhat-chaos-observer-start
     - ref: redhat-chaos-start-krkn
-    - chain: openshift-qe-cluster-density-v2
     - ref: openshift-qe-upgrade
     workflow: redhat-chaos-installer-gcp
-  timeout: 8h0m0s
 zz_generated_metadata:
   branch: main
   org: redhat-chaos

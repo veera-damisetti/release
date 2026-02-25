@@ -39,14 +39,6 @@ base_images:
     name: 4.13-priv
     namespace: ocp-private
     tag: hypershift-tests
-  ocp_builder_rhel-8-golang-1.19-openshift-4.13:
-    name: builder
-    namespace: ocp
-    tag: rhel-8-golang-1.19-openshift-4.13
-  ocp_builder_rhel-9-golang-1.19-openshift-4.13:
-    name: builder
-    namespace: ocp
-    tag: rhel-9-golang-1.19-openshift-4.13
   ocp_os:
     name: 4.13-priv
     namespace: ocp-private
@@ -57,13 +49,6 @@ canonical_go_repository: github.com/openshift/machine-config-operator
 images:
 - dockerfile_path: Dockerfile.rhel7
   from: base
-  inputs:
-    ocp_builder_rhel-8-golang-1.19-openshift-4.13:
-      as:
-      - registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.19-openshift-4.13
-    ocp_builder_rhel-9-golang-1.19-openshift-4.13:
-      as:
-      - registry.ci.openshift.org/ocp/builder:rhel-9-golang-1.19-openshift-4.13
   to: machine-config-operator
 - dockerfile_literal: |
     FROM registry.ci.openshift.org/ocp/4.13:rhel-coreos
@@ -150,9 +135,8 @@ tests:
   as: e2e-azure-ovn-upgrade
   optional: true
   steps:
-    cluster_profile: azure-2
+    cluster_profile: azure4
     env:
-      BASE_DOMAIN: ci2.azure.devcluster.openshift.com
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-azure-ovn
 - always_run: false
@@ -181,7 +165,7 @@ tests:
   as: e2e-gcp-rt-op
   optional: true
   steps:
-    cluster_profile: gcp-3
+    cluster_profile: gcp
     env:
       RT_ENABLED: "true"
     test:
@@ -257,21 +241,24 @@ tests:
     workflow: openshift-e2e-vsphere-upi
 - always_run: false
   as: e2e-metal-ipi
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-sdn-ipv4
 - always_run: false
   as: e2e-metal-ipi-ovn-ipv6
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-ovn-ipv6
 - always_run: false
   as: e2e-metal-ipi-ovn-dualstack
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: equinix-ocp-metal
@@ -314,7 +301,8 @@ tests:
     workflow: openshift-e2e-aws-ovn
 - always_run: false
   as: e2e-metal-assisted
-  cluster: build05
+  capabilities:
+  - intranet
   optional: true
   steps:
     cluster_profile: packet-assisted
@@ -403,10 +391,11 @@ tests:
     env:
       FEATURE_SET: TechPreviewNoUpgrade
     workflow: openshift-e2e-openstack-external-lb
-- as: e2e-hypershift
+- always_run: false
+  as: e2e-hypershift
   optional: true
   steps:
-    cluster_profile: hypershift
+    cluster_profile: hypershift-aws
     workflow: hypershift-aws-e2e-external
 zz_generated_metadata:
   branch: release-4.13

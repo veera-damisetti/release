@@ -12,6 +12,8 @@ tide:
     - openshift-4.18
     - openshift-4.19
     - openshift-4.20
+    - openshift-4.21
+    - openshift-4.22
     - openshift-4.9
     - release-4.10
     - release-4.11
@@ -24,12 +26,15 @@ tide:
     - release-4.18
     - release-4.19
     - release-4.20
+    - release-4.21
+    - release-4.22
     - release-4.9
     labels:
     - approved
     - backport-risk-assessed
     - jira/valid-bug
     - lgtm
+    - staff-eng-approved
     - verified
     missingLabels:
     - backports/unvalidated-commits
@@ -41,15 +46,13 @@ tide:
     repos:
     - openshift/secrets-store-csi-driver
   - includedBranches:
-    - openshift-4.19
-    - openshift-4.20
-    - release-4.19
-    - release-4.20
+    - openshift-4.22
+    - release-4.22
     labels:
     - approved
-    - backport-risk-assessed
     - jira/valid-bug
     - lgtm
+    - staff-eng-approved
     - verified
     missingLabels:
     - backports/unvalidated-commits
@@ -93,6 +96,7 @@ tide:
     - openshift-4.19
     - openshift-4.20
     - openshift-4.21
+    - openshift-4.22
     - openshift-4.9
     - release-4.10
     - release-4.11
@@ -106,6 +110,7 @@ tide:
     - release-4.19
     - release-4.20
     - release-4.21
+    - release-4.22
     - release-4.9
     labels:
     - approved
@@ -117,24 +122,6 @@ tide:
     - do-not-merge/invalid-owners-file
     - do-not-merge/work-in-progress
     - jira/invalid-bug
-    - needs-rebase
-    repos:
-    - openshift/secrets-store-csi-driver
-  - includedBranches:
-    - main
-    - master
-    labels:
-    - approved
-    - lgtm
-    - qe-approved
-    - verified
-    missingLabels:
-    - backports/unvalidated-commits
-    - do-not-merge/hold
-    - do-not-merge/invalid-owners-file
-    - do-not-merge/work-in-progress
-    - jira/invalid-bug
-    - keep-main-query-separate
     - needs-rebase
     repos:
     - openshift/secrets-store-csi-driver
@@ -153,6 +140,7 @@ tide:
     - openshift-4.19
     - openshift-4.20
     - openshift-4.21
+    - openshift-4.22
     - openshift-4.9
     - release-4.10
     - release-4.11
@@ -166,6 +154,7 @@ tide:
     - release-4.19
     - release-4.20
     - release-4.21
+    - release-4.22
     - release-4.9
     labels:
     - approved
@@ -177,6 +166,23 @@ tide:
     - do-not-merge/invalid-owners-file
     - do-not-merge/work-in-progress
     - jira/invalid-bug
+    - needs-rebase
+    repos:
+    - openshift/secrets-store-csi-driver
+  - includedBranches:
+    - main
+    - master
+    labels:
+    - approved
+    - lgtm
+    - verified
+    missingLabels:
+    - backports/unvalidated-commits
+    - do-not-merge/hold
+    - do-not-merge/invalid-owners-file
+    - do-not-merge/work-in-progress
+    - jira/invalid-bug
+    - keep-main-query-separate
     - needs-rebase
     repos:
     - openshift/secrets-store-csi-driver

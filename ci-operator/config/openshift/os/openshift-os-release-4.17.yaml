@@ -1,8 +1,3 @@
-base_images:
-  coreos_coreos-assembler_4.17:
-    name: coreos-assembler
-    namespace: coreos
-    tag: "4.17"
 build_root:
   image_stream_tag:
     name: fcos-buildroot
@@ -29,10 +24,6 @@ images:
     # Go back to unprivileged user for COSA
     USER builder
     WORKDIR /tmp/cosa
-  inputs:
-    coreos_coreos-assembler_4.17:
-      as:
-      - registry.ci.openshift.org/coreos/coreos-assembler:4.17
   to: build-image
 promotion:
   to:
@@ -80,13 +71,11 @@ tests:
   container:
     from: build-image
   skip_if_only_changed: ^docs/|\.md$|^(?:.*/)?(?:\.gitignore|OWNERS|PROJECT|LICENSE)$
-  timeout: 4h0m0s
 - as: rhcos-9-build-test-metal
   commands: /src/ci/prow-entrypoint.sh rhcos-9-build-test-metal
   container:
     from: build-image
   skip_if_only_changed: ^docs/|\.md$|^(?:.*/)?(?:\.gitignore|OWNERS|PROJECT|LICENSE)$
-  timeout: 3h0m0s
 zz_generated_metadata:
   branch: release-4.17
   org: openshift

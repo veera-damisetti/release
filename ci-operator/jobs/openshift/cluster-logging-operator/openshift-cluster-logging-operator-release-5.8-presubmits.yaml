@@ -5,7 +5,7 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/ci-index-cluster-logging-operator-bundle
     decorate: true
     decoration_config:
@@ -24,7 +24,7 @@ presubmits:
         - --target=ci-index-cluster-logging-operator-bundle
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -60,12 +60,11 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/e2e-ocp-target-minus-one
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 5h0m0s
     labels:
       ci.openshift.io/generator: prowgen
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -84,9 +83,17 @@ presubmits:
         - --target=e2e-ocp-target-minus-one
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -132,12 +139,11 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/e2e-ocp-target-minus-two
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 5h0m0s
     labels:
       ci.openshift.io/generator: prowgen
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -156,9 +162,17 @@ presubmits:
         - --target=e2e-ocp-target-minus-two
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -204,12 +218,11 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/e2e-target
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 5h0m0s
     labels:
       ci.openshift.io/generator: prowgen
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -227,9 +240,17 @@ presubmits:
         - --target=e2e-target
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -275,7 +296,7 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/functional
     decorate: true
     decoration_config:
@@ -298,9 +319,17 @@ presubmits:
         - --target=functional
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -346,7 +375,7 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/functional-target
     decorate: true
     decoration_config:
@@ -368,9 +397,17 @@ presubmits:
         - --target=functional-target
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -416,7 +453,7 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/images
     decorate: true
     decoration_config:
@@ -435,7 +472,7 @@ presubmits:
         - --target=[images]
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -471,7 +508,7 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/lint
     decorate: true
     decoration_config:
@@ -490,9 +527,17 @@ presubmits:
         - --target=lint
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -526,12 +571,11 @@ presubmits:
     branches:
     - ^release-5\.8$
     - ^release-5\.8-
-    cluster: build07
+    cluster: build08
     context: ci/prow/unit
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 15m0s
     labels:
       ci.openshift.io/generator: prowgen
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
@@ -546,9 +590,17 @@ presubmits:
         - --target=unit
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

@@ -4,10 +4,8 @@ postsubmits:
     always_run: true
     branches:
     - ^release-ocm-2\.12$
-    cluster: build06
+    cluster: build04
     decorate: true
-    decoration_config:
-      skip_cloning: true
     labels:
       ci-operator.openshift.io/is-promotion: "true"
       ci.openshift.io/generator: prowgen
@@ -24,7 +22,7 @@ postsubmits:
         - --target=[images]
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -64,10 +62,8 @@ postsubmits:
     always_run: true
     branches:
     - ^release-ocm-2\.12$
-    cluster: build06
+    cluster: build04
     decorate: true
-    decoration_config:
-      skip_cloning: true
     labels:
       ci-operator.openshift.io/is-promotion: "true"
       ci-operator.openshift.io/variant: mce
@@ -86,7 +82,7 @@ postsubmits:
         - --variant=mce
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -126,10 +122,8 @@ postsubmits:
     always_run: true
     branches:
     - ^release-ocm-2\.12$
-    cluster: build06
+    cluster: build04
     decorate: true
-    decoration_config:
-      skip_cloning: true
     labels:
       ci-operator.openshift.io/variant: mce
       ci.openshift.io/generator: prowgen
@@ -145,9 +139,17 @@ postsubmits:
         - --variant=mce
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -179,10 +181,8 @@ postsubmits:
     always_run: true
     branches:
     - ^release-ocm-2\.12$
-    cluster: build06
+    cluster: build04
     decorate: true
-    decoration_config:
-      skip_cloning: true
     labels:
       ci.openshift.io/generator: prowgen
     max_concurrency: 1
@@ -197,9 +197,17 @@ postsubmits:
         - --target=mirror-vcsref-image
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

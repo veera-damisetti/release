@@ -35,8 +35,9 @@ finished()
   echo "dev-scripts setup completed, fetching logs"
   ssh "${SSHOPTS[@]}" "root@${IP}" tar -czf - /root/dev-scripts/logs | tar -C "${ARTIFACT_DIR}" -xzf -
   echo "Removing REDACTED info from log..."
+  # Use '/auths/ s/.*/' instead of 's/.*auths.*/' to avoid regex backtracking on long lines
   sed -i '
-    s/.*auths.*/*** PULL_SECRET ***/g;
+    /auths/ s/.*/*** PULL_SECRET ***/;
     s/password: .*/password: REDACTED/;
     s/X-Auth-Token.*/X-Auth-Token REDACTED/;
     s/UserData:.*,/UserData: REDACTED,/;
@@ -181,13 +182,13 @@ fi
 # even on success
 cat - <<EOF >> "${SHARED_DIR}/dev-scripts-additional-config"
 export OPENSHIFT_INSTALL_GATHER_BOOTSTRAP=true
+export OPENSHIFT_INSTALL_EXPERIMENTAL_DISABLE_IMAGE_POLICY=${OPENSHIFT_INSTALL_EXPERIMENTAL_DISABLE_IMAGE_POLICY:-}
 EOF
 
 scp "${SSHOPTS[@]}" "${SHARED_DIR}/dev-scripts-additional-config" "root@${IP}:dev-scripts-additional-config"
 
-
-
-timeout -s 9 175m ssh "${SSHOPTS[@]}" "root@${IP}" bash - << EOF |& sed -e 's/.*auths.*/*** PULL_SECRET ***/g'
+# Use '/auths/ s/.*/' instead of 's/.*auths.*/' to avoid regex backtracking on long log lines
+timeout -s 9 175m ssh "${SSHOPTS[@]}" "root@${IP}" bash - << EOF |& sed -e '/auths/ s/.*/*** PULL_SECRET ***/'
 
 set -xeuo pipefail
 
@@ -393,6 +394,12 @@ echo "export ENABLE_LOCAL_REGISTRY=true" >> /root/dev-scripts/config_root.sh
 if [ "${AGENT_E2E_TEST_BOOT_MODE}" == "DISKIMAGE" ];
 then
   echo "export APPLIANCE_IMAGE=${APPLIANCE_IMAGE}" >> /root/dev-scripts/config_root.sh
+fi
+
+# Add AGENT_ISO_BUILDER_IMAGE only for OVE ISOBuilder e2e tests
+if [ "${AGENT_E2E_TEST_BOOT_MODE}" == "ISO_NO_REGISTRY" ];
+then
+  echo "export AGENT_ISO_BUILDER_IMAGE=${AGENT_ISO_BUILDER_IMAGE}" >> /root/dev-scripts/config_root.sh
 fi
 
 # If any extra manifests, then set ASSETS_EXTRA_FOLDER

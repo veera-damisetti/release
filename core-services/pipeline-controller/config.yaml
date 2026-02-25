@@ -1,4 +1,10 @@
 orgs:
-  - org: openshift
-    repos:
-      - cluster-capi-operator
+- org: openshift
+  repos:
+    - sippy
+    - ci-tools
+    - name: origin
+      branches:
+        - main
+      mode:
+        trigger: auto

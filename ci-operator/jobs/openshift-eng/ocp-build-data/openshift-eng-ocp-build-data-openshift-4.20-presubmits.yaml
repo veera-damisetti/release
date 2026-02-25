@@ -1,11 +1,11 @@
 presubmits:
   openshift-eng/ocp-build-data:
   - agent: kubernetes
-    always_run: true
+    always_run: false
     branches:
     - ^openshift-4\.20$
     - ^openshift-4\.20-
-    cluster: build10
+    cluster: build11
     context: ci/prow/art-konflux-delivery-repo-check
     decorate: true
     decoration_config:
@@ -16,6 +16,7 @@ presubmits:
       pj-rehearse.openshift.io/can-be-rehearsed: "true"
     name: pull-ci-openshift-eng-ocp-build-data-openshift-4.20-art-konflux-delivery-repo-check
     rerun_command: /test art-konflux-delivery-repo-check
+    run_if_changed: ^images/.*
     spec:
       containers:
       - args:
@@ -25,9 +26,17 @@ presubmits:
         - --target=art-konflux-delivery-repo-check
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

@@ -67,10 +67,9 @@ tests:
     cluster_profile: aws-chaos
     env:
       BASE_DOMAIN: aws.rhperfscale.org
-      CHURN: "false"
+      CDV2_ITERATION_MULTIPLIER: "10"
       CONTROL_PLANE_INSTANCE_TYPE: m5.xlarge
       GC: "false"
-      ITERATION_MULTIPLIER_ENV: "10"
       MCO_CONF_DAY2_CUSTOM_MCP: '[{"mcp_name": "infra"}]'
       PAUSED_MCP_NAME: worker infra
       USER_TAGS: |
@@ -94,11 +93,11 @@ tests:
           cpu: 100m
           memory: 200Mi
     - chain: openshift-qe-upgrade-max-unavailable
-    - chain: openshift-qe-cluster-density-v2
+    - ref: openshift-qe-cluster-density-v2
+    - ref: redhat-chaos-observer-start
     - ref: redhat-chaos-start-krkn
     - chain: openshift-upgrade-qe-sanity-cpou
     workflow: redhat-chaos-installer-aws
-  timeout: 8h0m0s
 zz_generated_metadata:
   branch: main
   org: redhat-chaos

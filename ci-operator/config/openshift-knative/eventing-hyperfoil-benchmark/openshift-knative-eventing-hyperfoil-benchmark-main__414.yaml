@@ -68,7 +68,7 @@ tests:
     - as: openshift-gather-extra
       best_effort: true
       cli: latest
-      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/master/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
+      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/main/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
         | /bin/bash -s
       from: knative-eventing-hyperfoil-benchmark-source-image
       grace_period: 1m0s
@@ -93,7 +93,6 @@ tests:
           cpu: 100m
       timeout: 4h0m0s
     workflow: ipi-aws
-  timeout: 5h0m0s
 - as: test-kafka-broker-upstream-nightly
   skip_if_only_changed: ^.tekton/.*|^.konflux.*|^.github/.*|^rpms.lock.yaml$|^hack/(lib$|[^l].*|l[^i].*|li[^b].*|lib[^/].*)|^OWNERS.*|.*\.md
   steps:
@@ -140,7 +139,7 @@ tests:
     - as: openshift-gather-extra
       best_effort: true
       cli: latest
-      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/master/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
+      commands: curl -skSL https://raw.githubusercontent.com/openshift/release/main/ci-operator/step-registry/gather/extra/gather-extra-commands.sh
         | /bin/bash -s
       from: knative-eventing-hyperfoil-benchmark-source-image
       grace_period: 1m0s
@@ -165,7 +164,6 @@ tests:
           cpu: 100m
       timeout: 4h0m0s
     workflow: ipi-aws
-  timeout: 5h0m0s
 zz_generated_metadata:
   branch: main
   org: openshift-knative

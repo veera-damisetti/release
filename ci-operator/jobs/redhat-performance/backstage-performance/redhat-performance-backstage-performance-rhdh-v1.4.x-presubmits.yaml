@@ -5,7 +5,7 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/images
     decorate: true
     decoration_config:
@@ -24,7 +24,7 @@ presubmits:
         - --target=[images]
         command:
         - ci-operator
-        image: ci-operator:latest
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -60,12 +60,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/list-catalog
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -84,9 +83,17 @@ presubmits:
         - --target=list-catalog
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -135,12 +142,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/list-catalog-empty
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -159,9 +165,17 @@ presubmits:
         - --target=list-catalog-empty
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -210,12 +224,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/list-catalog-scalability
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -234,9 +247,17 @@ presubmits:
         - --target=list-catalog-scalability
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -285,12 +306,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -309,9 +329,17 @@ presubmits:
         - --target=mvp
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -360,12 +388,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-catalog-size-api-scalability
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -384,9 +411,17 @@ presubmits:
         - --target=mvp-catalog-size-api-scalability
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -435,12 +470,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-catalog-size-api-scalability-20g
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -459,9 +493,17 @@ presubmits:
         - --target=mvp-catalog-size-api-scalability-20g
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -510,12 +552,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-catalog-size-component-scalability
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -534,9 +575,17 @@ presubmits:
         - --target=mvp-catalog-size-component-scalability
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -585,12 +634,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-catalog-size-component-scalability-20g
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -609,9 +657,17 @@ presubmits:
         - --target=mvp-catalog-size-component-scalability-20g
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -660,12 +716,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-helm
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -684,9 +739,17 @@ presubmits:
         - --target=mvp-helm
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -735,12 +798,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-olm
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -759,9 +821,17 @@ presubmits:
         - --target=mvp-olm
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -810,12 +880,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-profile
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -834,9 +903,17 @@ presubmits:
         - --target=mvp-profile
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -885,12 +962,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-resources-scalability-cpu1000m
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -909,9 +985,17 @@ presubmits:
         - --target=mvp-resources-scalability-cpu1000m
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -960,12 +1044,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-resources-scalability-cpu2000m
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -984,9 +1067,17 @@ presubmits:
         - --target=mvp-resources-scalability-cpu2000m
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1035,12 +1126,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-resources-scalability-cpu250m
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1059,9 +1149,17 @@ presubmits:
         - --target=mvp-resources-scalability-cpu250m
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1110,12 +1208,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-resources-scalability-cpu500m
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1134,9 +1231,17 @@ presubmits:
         - --target=mvp-resources-scalability-cpu500m
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1185,12 +1290,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-rhdh-horizontal-scalability-1to5
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1209,9 +1313,17 @@ presubmits:
         - --target=mvp-rhdh-horizontal-scalability-1to5
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1260,12 +1372,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-rhdh-horizontal-scalability-6to10
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1284,9 +1395,17 @@ presubmits:
         - --target=mvp-rhdh-horizontal-scalability-6to10
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1335,12 +1454,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/mvp-scalability
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1359,9 +1477,17 @@ presubmits:
         - --target=mvp-scalability
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1410,12 +1536,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/search-catalog
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1434,9 +1559,17 @@ presubmits:
         - --target=search-catalog
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -1485,12 +1618,11 @@ presubmits:
     branches:
     - ^rhdh-v1\.4\.x$
     - ^rhdh-v1\.4\.x-
-    cluster: build07
+    cluster: build10
     context: ci/prow/search-catalog-scalability
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 8h0m0s
     labels:
       ci-operator.openshift.io/cloud: aws
       ci-operator.openshift.io/cloud-cluster-profile: aws-rhdh-performance
@@ -1509,9 +1641,17 @@ presubmits:
         - --target=search-catalog-scalability
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

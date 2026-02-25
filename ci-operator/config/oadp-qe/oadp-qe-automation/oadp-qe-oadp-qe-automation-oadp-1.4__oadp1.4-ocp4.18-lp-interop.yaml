@@ -19,7 +19,7 @@ build_root:
   image_stream_tag:
     name: release
     namespace: openshift
-    tag: golang-1.20
+    tag: rhel-9-release-golang-1.20-openshift-4.17
 images:
 - context_dir: .
   dockerfile_path: dockerfiles/testing/interop/Dockerfile
@@ -88,7 +88,6 @@ tests:
     - ref: interop-tests-deploy-odf
     - ref: oadp-execute-tests
     workflow: oadp-ipi-aws
-  timeout: 8h0m0s
 - as: oadp-interop-aws-fips
   cron: 0 23 31 2 *
   steps:
@@ -130,7 +129,6 @@ tests:
     - ref: interop-tests-deploy-odf
     - ref: oadp-execute-tests
     workflow: oadp-ipi-aws
-  timeout: 8h0m0s
 zz_generated_metadata:
   branch: oadp-1.4
   org: oadp-qe

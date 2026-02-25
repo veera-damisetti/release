@@ -11,7 +11,7 @@ build_root:
   image_stream_tag:
     name: release
     namespace: openshift
-    tag: golang-1.19
+    tag: rhel-9-release-golang-1.19-openshift-4.15
 images:
 - context_dir: .
   dockerfile_path: ods_ci/build/Dockerfile_interop
@@ -32,8 +32,8 @@ resources:
       cpu: 8000m
       memory: 10Gi
 tests:
-- as: rhoai-interop-aws
-  cron: 0 6 * * 1
+- always_run: false
+  as: rhoai-interop-aws
   steps:
     cluster_profile: aws-rhoai-qe
     env:

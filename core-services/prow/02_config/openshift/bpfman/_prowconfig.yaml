@@ -1,16 +1,13 @@
 tide:
   queries:
   - includedBranches:
-    - openshift-4.19
-    - openshift-4.20
-    - release-4.19
-    - release-4.20
+    - openshift-4.22
+    - release-4.22
     labels:
     - approved
-    - backport-risk-assessed
     - jira/valid-bug
     - lgtm
-    - verified
+    - staff-eng-approved
     missingLabels:
     - backports/unvalidated-commits
     - do-not-merge/hold
@@ -21,14 +18,13 @@ tide:
     repos:
     - openshift/bpfman
   - includedBranches:
-    - openshift-4.19
-    - openshift-4.20
+    - openshift-4.22
+    - release-4.22
     labels:
     - approved
-    - backport-risk-assessed
     - jira/valid-bug
     - lgtm
-    - verified
+    - staff-eng-approved
     missingLabels:
     - backports/unvalidated-commits
     - do-not-merge/hold
@@ -43,7 +39,6 @@ tide:
     labels:
     - approved
     - lgtm
-    - verified
     missingLabels:
     - backports/unvalidated-commits
     - do-not-merge/hold
@@ -60,6 +55,7 @@ tide:
     - openshift-4.19
     - openshift-4.20
     - openshift-4.21
+    - openshift-4.22
     labels:
     - approved
     - lgtm

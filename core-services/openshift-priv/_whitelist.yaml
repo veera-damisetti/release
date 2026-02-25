@@ -6,6 +6,10 @@ whitelist:
   openshift-eng:
     - ocp-build-data
   openshift:
+    - cluster-logging-operator
+    - crio-credential-provider
+    - eventrouter
+    - hypershift-oadp-plugin
     - kubernetes
     - kubernetes-autoscaler
     - kubernetes-drain
@@ -39,8 +43,8 @@ whitelist:
     - kubernetes-csi-translation-lib
     - kubernetes-cli-runtime
     - kubernetes-sigs-structured-merge-diff
+    - loki
     - oadp-operator
-    - hypershift-oadp-plugin
     - oadp-must-gather
     - openshift-velero-plugin
     - restic
@@ -60,6 +64,18 @@ whitelist:
     - mig-log-reader
     - mig-operator
     - mig-ui
+    - mta-analyzer-lsp
+    - mta-c-sharp-analyzer-provider
+    - mta-java-analyzer-bundle
+    - mta-kai
+    - mta-kantra
+    - mta-operator
+    - mta-static-report
+    - mta-tackle2-addon-analyzer
+    - mta-tackle2-addon-discovery
+    - mta-tackle2-addon-platform
+    - mta-tackle2-hub
+    - mta-tackle2-ui
     - must-gather
     - oadp-non-admin
     - openvpn
@@ -67,3 +83,10 @@ whitelist:
     - rsync-transfer
     - stern
     - velero-plugin-for-mtc
+  openshift-assisted:
+    - assisted-installer-ui
+  ViaQ:
+    - log-file-metric-exporter
+    - observatorium-api
+    - opa-openshift
+    - vector

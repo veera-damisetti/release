@@ -10,13 +10,17 @@ bastion=$(cat ${CLUSTER_PROFILE_DIR}/bastion)
 
 lab=$(cat ${CLUSTER_PROFILE_DIR}/lab)
 lab_cloud=$(cat ${CLUSTER_PROFILE_DIR}/lab_cloud)
-compute_count=$(cat ${CLUSTER_PROFILE_DIR}/compute_count)
+compute_count=$(cat ${CLUSTER_PROFILE_DIR}/config | jq ".compute_count")
 ctlplane_start_ip=$(cat ${CLUSTER_PROFILE_DIR}/ctlplane_start_ip)
 kubeconfig=$(cat ${CLUSTER_PROFILE_DIR}/kubeconfig)
 username=$(cat ${CLUSTER_PROFILE_DIR}/username)
 password=$(cat ${CLUSTER_PROFILE_DIR}/login)
 ssh_key_file=$(cat ${CLUSTER_PROFILE_DIR}/ssh_key_path)
 nova_migration_key=$(cat ${CLUSTER_PROFILE_DIR}/nova_migration_key)
+amphora_container_image=$(cat ${CLUSTER_PROFILE_DIR}/amphora_container_image)
+
+ceph_backend=$(cat ${CLUSTER_PROFILE_DIR}/ceph_backend)
+ceph_admin_node=$(cat ${CLUSTER_PROFILE_DIR}/ceph_admin_node)
 
 cat <<EOF >>/tmp/all.yml
 ---
@@ -29,6 +33,12 @@ ssh_password: $password
 ssh_key_file: $ssh_key_file
 nova_migration_key: $nova_migration_key
 ctlplane_start_ip: $ctlplane_start_ip
+ceph_backend: $ceph_backend
+ceph_admin_node: $ceph_admin_node
+ceph_admin_user: root
+ceph_admin_password: $password
+ceph_config_local_path: /root/ceph-config
+amphora_image_container_image: $amphora_container_image
 ocp_environment:
   KUBECONFIG: $kubeconfig
 EOF

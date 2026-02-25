@@ -62,7 +62,11 @@ echo "Extracting openshift-install from the payload..."
 oc adm release extract -a "${CLUSTER_PROFILE_DIR}/pull-secret" "${OPENSHIFT_INSTALL_TARGET}" \
   --command=openshift-install --to="${INSTALL_DIR}"
 
-CLUSTER_NAME="${LEASED_RESOURCE}-${UNIQUE_HASH}"
+if [ "${USE_EXTERNAL_DNS:-false}" == "true" ]; then
+  CLUSTER_NAME="${LEASED_RESOURCE}"
+else
+  CLUSTER_NAME="${LEASED_RESOURCE}-${UNIQUE_HASH}"
+fi
 OCPINSTALL="${INSTALL_DIR}/openshift-install"
 # All virsh commands need to be run on the hypervisor
 LIBVIRT_CONNECTION="qemu+tcp://${HOSTNAME}/system"
@@ -73,6 +77,11 @@ VIRSH="mock-nss.sh virsh --connect ${LIBVIRT_CONNECTION}"
 if [[ $(${VIRSH} pool-list | grep ${POOL_NAME}) ]]; then
   echo "Storage pool ${POOL_NAME} already exists. Skipping..."
 else
+  if [[ $(${VIRSH} pool-list --all | grep ${POOL_NAME}) ]]; then
+    echo "Storage pool ${POOL_NAME} already exists in inactive state. Deleting it.."
+    ${VIRSH} pool-destroy "${POOL_NAME}"
+    ${VIRSH} pool-undefine "${POOL_NAME}"
+  fi
   echo "Creating storage pool..."
   ${VIRSH} pool-define-as \
     --name ${POOL_NAME} \
@@ -202,16 +211,20 @@ else
   RHCOS_VERSION=$(${OCPINSTALL} coreos print-stream-json | yq-v4 -oy ".architectures.${ARCH}.artifacts.qemu.release")
   QCOW_URL=$(${OCPINSTALL} coreos print-stream-json | yq-v4 -oy ".architectures.${ARCH}.artifacts.qemu.formats[\"qcow2.gz\"].disk.location")
   VOLUME_NAME="ocp-${BRANCH}-rhcos-${RHCOS_VERSION}-qemu.${ARCH}.qcow2"
+  DOWNLOAD_NEW_IMAGE=true
 
   # Check if we need to update the source volume
-  CURRENT_SOURCE_VOLUME=$(${VIRSH} vol-list --pool ${POOL_NAME} | grep "ocp-${BRANCH}-rhcos" | awk '{ print $1 }' || true)
-  if [[ -z "${CURRENT_SOURCE_VOLUME}" || "${CURRENT_SOURCE_VOLUME}" != "${VOLUME_NAME}" ]]; then
+  for CURRENT_SOURCE_VOLUME in $(${VIRSH} vol-list --pool ${POOL_NAME} | grep "ocp-${BRANCH}-rhcos" | awk '{ print $1 }' || true); do
+    if [[ "${CURRENT_SOURCE_VOLUME}" == "${VOLUME_NAME}" ]]; then
+      DOWNLOAD_NEW_IMAGE=false
     # Delete the old source volume
-    if [[ ! -z "${CURRENT_SOURCE_VOLUME}" ]]; then
-      echo "Deleting ${CURRENT_SOURCE_VOLUME} source volume..."
-      ${VIRSH} vol-delete --pool ${POOL_NAME} ${CURRENT_SOURCE_VOLUME}
+    else
+        echo "Deleting ${CURRENT_SOURCE_VOLUME} source volume..."
+        ${VIRSH} vol-delete --pool ${POOL_NAME} ${CURRENT_SOURCE_VOLUME}
     fi
+  done
 
+  if [[ "${DOWNLOAD_NEW_IMAGE}" == true ]]; then
     # Download the new rhcos image
     echo "Downloading new rhcos image..."
     curl -L "${QCOW_URL}" | gunzip -c > ${INSTALL_DIR}/${VOLUME_NAME} || true
@@ -230,7 +243,7 @@ else
 
     # Upload the rhcos image to the source volume
     echo "Uploading rhcos image to source volume..."
-    ${VIRSH} vol-upload \
+    ${VIRSH} -k 60 -K 5 vol-upload \
       --vol ${VOLUME_NAME} \
       --pool ${POOL_NAME} \
       ${INSTALL_DIR}/${VOLUME_NAME}
@@ -246,6 +259,20 @@ NODE_TUNING_YAML="${SHARED_DIR}/99-sysctl-worker.yaml"
 if [ -f "${NODE_TUNING_YAML}" ]; then
   echo "Saving ${NODE_TUNING_YAML} to the install directory..."
   cp ${NODE_TUNING_YAML} "${INSTALL_DIR}/manifests"
+fi
+
+# Sets up the chrony machineconfig for the worker nodes
+CHRONY_WORKER_YAML="${SHARED_DIR}/99-chrony-worker.yaml"
+if [ -f "${CHRONY_WORKER_YAML}" ]; then
+  echo "Saving ${CHRONY_WORKER_YAML} to the install directory..."
+  cp ${CHRONY_WORKER_YAML} "${INSTALL_DIR}/manifests"
+fi
+
+# Sets up the chrony machineconfig for the master nodes
+CHRONY_MASTER_YAML="${SHARED_DIR}/99-chrony-master.yaml"
+if [ -f "${CHRONY_MASTER_YAML}" ]; then
+  echo "Saving ${CHRONY_MASTER_YAML} to the install directory..."
+  cp ${CHRONY_MASTER_YAML} "${INSTALL_DIR}/manifests"
 fi
 
 # Check for the etcd on ramdisk yaml config, and save it in the installation directory

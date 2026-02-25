@@ -59,10 +59,10 @@ images:
 resources:
   '*':
     limits:
-      memory: 4Gi
+      memory: 8Gi
     requests:
-      cpu: 100m
-      memory: 200Mi
+      cpu: 1000m
+      memory: 8Gi
 tests:
 - as: functional
   commands: |
@@ -99,7 +99,6 @@ tests:
     env:
       CEPH_HOSTNETWORK: "false"
     workflow: openstack-k8s-operators-test-build-deploy-kuttl
-  timeout: 6h0m0s
 - as: mariadb-operator-build-deploy-chainsaw
   cluster_claim:
     architecture: amd64
@@ -113,7 +112,6 @@ tests:
     env:
       CEPH_HOSTNETWORK: "false"
     workflow: openstack-k8s-operators-test-build-deploy-chainsaw
-  timeout: 6h0m0s
 - as: precommit-check
   commands: |
     export SKIP=no-commit-to-branch

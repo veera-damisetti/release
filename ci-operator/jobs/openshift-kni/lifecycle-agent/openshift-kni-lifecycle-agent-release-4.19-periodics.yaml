@@ -1,10 +1,9 @@
 periodics:
 - agent: kubernetes
-  cluster: build03
+  cluster: build05
   decorate: true
   decoration_config:
     skip_cloning: true
-    timeout: 3h0m0s
   extra_refs:
   - base_ref: release-4.19
     org: openshift-kni
@@ -29,9 +28,17 @@ periodics:
       - --variant=nightly-4.19
       command:
       - ci-operator
-      image: ci-operator:latest
+      env:
+      - name: HTTP_SERVER_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
       imagePullPolicy: Always
       name: ""
+      ports:
+      - containerPort: 8080
+        name: http
       resources:
         requests:
           cpu: 10m
@@ -75,7 +82,7 @@ periodics:
       secret:
         secretName: result-aggregator
 - agent: kubernetes
-  cluster: build03
+  cluster: build05
   cron: 47 20 * * 0
   decorate: true
   decoration_config:
@@ -103,9 +110,17 @@ periodics:
       - --variant=nightly-4.19
       command:
       - ci-operator
-      image: ci-operator:latest
+      env:
+      - name: HTTP_SERVER_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
       imagePullPolicy: Always
       name: ""
+      ports:
+      - containerPort: 8080
+        name: http
       resources:
         requests:
           cpu: 10m
@@ -149,12 +164,11 @@ periodics:
       secret:
         secretName: result-aggregator
 - agent: kubernetes
-  cluster: build03
+  cluster: build05
   cron: 22 13 * * 6
   decorate: true
   decoration_config:
     skip_cloning: true
-    timeout: 4h0m0s
   extra_refs:
   - base_ref: release-4.19
     org: openshift-kni
@@ -178,9 +192,17 @@ periodics:
       - --variant=nightly-4.19-upgrade-from-stable-4.18
       command:
       - ci-operator
-      image: ci-operator:latest
+      env:
+      - name: HTTP_SERVER_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
       imagePullPolicy: Always
       name: ""
+      ports:
+      - containerPort: 8080
+        name: http
       resources:
         requests:
           cpu: 10m
@@ -224,12 +246,11 @@ periodics:
       secret:
         secretName: result-aggregator
 - agent: kubernetes
-  cluster: build03
+  cluster: build05
   cron: 47 20 * * 0
   decorate: true
   decoration_config:
     skip_cloning: true
-    timeout: 4h0m0s
   extra_refs:
   - base_ref: release-4.19
     org: openshift-kni
@@ -253,9 +274,17 @@ periodics:
       - --variant=nightly-4.19-upgrade-from-stable-4.18
       command:
       - ci-operator
-      image: ci-operator:latest
+      env:
+      - name: HTTP_SERVER_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
       imagePullPolicy: Always
       name: ""
+      ports:
+      - containerPort: 8080
+        name: http
       resources:
         requests:
           cpu: 10m
@@ -299,12 +328,11 @@ periodics:
       secret:
         secretName: result-aggregator
 - agent: kubernetes
-  cluster: build03
+  cluster: build05
   cron: 44 2 * * 6
   decorate: true
   decoration_config:
     skip_cloning: true
-    timeout: 4h0m0s
   extra_refs:
   - base_ref: release-4.19
     org: openshift-kni
@@ -328,9 +356,17 @@ periodics:
       - --variant=nightly-4.19-upgrade-from-stable-4.18
       command:
       - ci-operator
-      image: ci-operator:latest
+      env:
+      - name: HTTP_SERVER_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
       imagePullPolicy: Always
       name: ""
+      ports:
+      - containerPort: 8080
+        name: http
       resources:
         requests:
           cpu: 10m
@@ -374,12 +410,11 @@ periodics:
       secret:
         secretName: result-aggregator
 - agent: kubernetes
-  cluster: build03
+  cluster: build05
   cron: 23 23 * * 6
   decorate: true
   decoration_config:
     skip_cloning: true
-    timeout: 4h0m0s
   extra_refs:
   - base_ref: release-4.19
     org: openshift-kni
@@ -403,9 +438,17 @@ periodics:
       - --variant=nightly-4.19-upgrade-from-stable-4.18
       command:
       - ci-operator
-      image: ci-operator:latest
+      env:
+      - name: HTTP_SERVER_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
       imagePullPolicy: Always
       name: ""
+      ports:
+      - containerPort: 8080
+        name: http
       resources:
         requests:
           cpu: 10m

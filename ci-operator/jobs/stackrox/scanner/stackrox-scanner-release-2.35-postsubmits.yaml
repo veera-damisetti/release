@@ -4,11 +4,10 @@ postsubmits:
     always_run: true
     branches:
     - ^release-2\.35$
-    cluster: build04
+    cluster: build11
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 3h0m0s
     labels:
       ci.openshift.io/generator: prowgen
     max_concurrency: 1
@@ -22,9 +21,17 @@ postsubmits:
         - --target=merge-e2e-tests
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m
@@ -56,11 +63,10 @@ postsubmits:
     always_run: true
     branches:
     - ^release-2\.35$
-    cluster: build04
+    cluster: build11
     decorate: true
     decoration_config:
       skip_cloning: true
-      timeout: 3h0m0s
     labels:
       ci.openshift.io/generator: prowgen
     max_concurrency: 1
@@ -74,9 +80,17 @@ postsubmits:
         - --target=merge-slim-e2e-tests
         command:
         - ci-operator
-        image: ci-operator:latest
+        env:
+        - name: HTTP_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: quay-proxy.ci.openshift.org/openshift/ci:ci_ci-operator_latest
         imagePullPolicy: Always
         name: ""
+        ports:
+        - containerPort: 8080
+          name: http
         resources:
           requests:
             cpu: 10m

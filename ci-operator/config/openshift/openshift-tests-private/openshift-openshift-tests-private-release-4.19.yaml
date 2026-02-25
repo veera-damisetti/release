@@ -11,16 +11,8 @@ base_images:
     name: "4.19"
     namespace: ocp
     tag: cli
-  network-observability-cli:
-    name: network-observability-cli
-    namespace: netobserv
-    tag: ci
   ocp-qe-perfscale-ci:
     name: ocp-qe-perfscale-ci
-    namespace: ci
-    tag: latest
-  rosa-aws-cli:
-    name: rosa-aws-cli
     namespace: ci
     tag: latest
   tools:
@@ -89,12 +81,6 @@ images:
         rm -rf /usr/bin/oc /usr/bin/kubectl /root/.config/gcloud /var/cache/yum/* /tmp/*
   from: tools
   inputs:
-    network-observability-cli:
-      as:
-      - registry.ci.openshift.org/netobserv/network-observability-cli:ci
-    rosa-aws-cli:
-      as:
-      - registry.ci.openshift.org/ci/rosa-aws-cli:latest
     src:
       as:
       - src
@@ -104,7 +90,7 @@ images:
     ARG YQ_VERSION="v4.30.8"
     ENV ART_DNF_WRAPPER_POLICY=append
     RUN set -x && \
-        curl --silent --location https://rpm.nodesource.com/setup_lts.x | bash - && \
+        curl --silent --location https://rpm.nodesource.com/setup_22.x | bash - && \
         curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && \
         PACKAGES="alsa-lib gtk2-devel gtk3-devel httpd-tools libnotify-devel libXScrnSaver nodejs nss openssh-clients xorg-x11-server-Xvfb yarn" && \
         yum -y install --setopt=tsflags=nodocs $PACKAGES && \
@@ -230,7 +216,7 @@ tests:
   skip_if_only_changed: ^frontend/|^images/|^pipeline/|^test/extended/(cluster_operator/hive|disaster_recovery|hypershift|kata|ocm_terraform|psap/hypernto|rosacli|testdata|util|winc)/|include\.go$|OWNERS$
   steps:
     allow_skip_on_success: true
-    cluster_profile: aws
+    cluster_profile: aws-3
     test:
     - ref: enable-qe-catalogsource
     - as: pr-test
@@ -309,6 +295,7 @@ tests:
     cluster_profile: aws-qe
     env:
       BASE_DOMAIN: qe.devcluster.openshift.com
+      FILTERS_ADDITIONAL: ~CPaasrunOnly&;Smokerun&
       FORCE_SUCCESS_EXIT: "no"
       TEST_FILTERS: ~ChkUpgrade&;~ConnectedOnly&;Smokerun&
       TEST_SCENARIOS: Windows_Containers
